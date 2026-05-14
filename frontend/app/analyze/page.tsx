@@ -1,68 +1,120 @@
 'use client'
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
-import {motion} from 'framer-motion'
+import {motion, AnimatePresence} from 'framer-motion'
 
 export default function Analyze(){
   const router = useRouter()
-  const [progress, setProgress] = useState(10)
+  const [progress, setProgress] = useState(0)
   const [lines, setLines] = useState<string[]>([])
+  const [status, setStatus] = useState('Initializing Core...')
 
   useEffect(()=>{
-    // staged progress updates tied to analysis steps
     const messages = [
-      'Parsing Resume...',
-      'Running ATS Simulation...',
-      'Analyzing Technical Depth...',
-      'Scanning GitHub Activity...',
-      'Detecting Hiring Risks...',
-      'Generating Recruiter Insights...',
-      'Building Recovery Roadmap...'
+      { text: 'Parsing Resume Structure...', delay: 500, prog: 15 },
+      { text: 'Extracting Technical Metadata...', delay: 1200, prog: 25 },
+      { text: 'Running ATS Simulation...', delay: 2000, prog: 40 },
+      { text: 'Analyzing GitHub Repository Depth...', delay: 3000, prog: 55 },
+      { text: 'Evaluating Project Business Impact...', delay: 4000, prog: 70 },
+      { text: 'Detecting Hiring Risks & Red Flags...', delay: 5000, prog: 85 },
+      { text: 'Generating Recruiter Insights...', delay: 6000, prog: 95 },
+      { text: 'Finalizing Readiness Roadmap...', delay: 6500, prog: 100 }
     ]
 
-    let step = 0
-    const logInterval = setInterval(()=>{
-      if(step < messages.length){
-        setLines(prev=>[...prev, messages[step]])
-        step++
-      }
-    }, 800)
+    messages.forEach((msg, i) => {
+      setTimeout(() => {
+        setLines(prev => [...prev, msg.text])
+        setStatus(msg.text)
+        setProgress(msg.prog)
+      }, msg.delay)
+    })
 
-    // animate progress while backend processes (2-4s)
-    const steps = [15,30,45,60,75,85,95,100]
-    let i = 0
-    const progInterval = setInterval(()=>{
-      setProgress(steps[i])
-      i++
-      if(i>=steps.length){
-        clearInterval(progInterval)
-        setTimeout(()=> router.push('/results'), 500)
-      }
-    }, 700)
+    // Wait 7.5 seconds before redirecting to Results
+    const timer = setTimeout(() => {
+      router.push('/results')
+    }, 7500)
 
-    return ()=>{
-      clearInterval(logInterval)
-      clearInterval(progInterval)
-    }
+    return () => clearTimeout(timer)
   },[router])
 
   return (
-    <div className="container mx-auto py-24 px-6">
-      <div className="glass p-8 flex items-center gap-6">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center pulse">
-          <div className="w-12 h-12 rounded-full bg-black/40"></div>
-        </div>
-        <div className="flex-1">
-          <h3 className="text-xl font-semibold">Scanning resume...</h3>
-          <div className="text-sm text-gray-300 mt-2 h-32 overflow-auto">
-            {lines.map((l,i)=> <div key={i} className="font-mono text-xs">➜ {l}</div>)}
-          </div>
-          <div className="mt-4 bg-white/6 h-3 rounded overflow-hidden">
-            <motion.div className="h-3 bg-gradient-to-r from-primary to-accent" style={{width:`${progress}%`}} layout transition={{duration:0.5}} />
-          </div>
-          <p className="text-xs text-gray-400 mt-2">{progress}%</p>
-        </div>
+    <div className="container mx-auto py-32 px-6 flex flex-col items-center justify-center min-h-[80vh]">
+      <div className="relative mb-16">
+        {/* Pulsing AI Orb */}
+        <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full animate-pulse"></div>
+        <motion.div 
+          className="relative w-40 h-40 rounded-full border-2 border-primary/30 flex items-center justify-center overflow-hidden glass"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20"></div>
+          <motion.div 
+            className="w-24 h-24 rounded-full bg-gradient-to-r from-primary to-accent blur-md"
+            animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </motion.div>
+        
+        {/* Scanning Line */}
+        <motion.div 
+          className="absolute top-0 left-0 w-full h-[2px] bg-accent shadow-[0_0_15px_#00D1FF]"
+          animate={{ top: ['0%', '100%', '0%'] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
+
+      <motion.div 
+        className="glass p-8 rounded-3xl max-w-2xl w-full border border-white/5"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="flex justify-between items-end mb-4">
+          <div>
+            <h3 className="text-xl font-bold text-white mb-1">{status}</h3>
+            <p className="text-xs text-gray-500 uppercase tracking-widest">Neural Processor Active</p>
+          </div>
+          <div className="text-2xl font-mono text-accent font-bold">{progress}%</div>
+        </div>
+
+        <div className="progress-bar mb-8 h-2">
+          <motion.div 
+            className="progress-bar-fill" 
+            initial={{ width: '0%' }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.5 }}
+          />
+        </div>
+
+        <div className="bg-black/40 rounded-xl p-6 font-mono text-xs h-48 overflow-hidden relative">
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+          <div className="space-y-2">
+            <AnimatePresence>
+              {lines.map((line, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="flex items-center gap-3 text-gray-400"
+                >
+                  <span className="text-accent font-bold">»</span>
+                  <span>{line}</span>
+                  <motion.span 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-[10px] text-success/50"
+                  >[SUCCESS]</motion.span>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+            <motion.div 
+              animate={{ opacity: [0, 1] }} 
+              transition={{ repeat: Infinity, duration: 0.8 }}
+              className="w-2 h-4 bg-accent/50 inline-block align-middle"
+            />
+          </div>
+        </div>
+      </motion.div>
     </div>
   )
+}
 }

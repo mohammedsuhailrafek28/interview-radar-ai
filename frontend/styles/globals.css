@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,8 @@
   --bg: #0B1020;
   --primary: #7C4DFF;
   --accent: #00D1FF;
+  --success: #00E676;
+  --danger: #FF5252;
 }
 
 html,body,#root{
@@ -16,45 +20,303 @@ body{
   @apply bg-[color:var(--bg)] text-white font-inter;
   background-color: var(--bg);
   -webkit-font-smoothing:antialiased;
+  overflow-x: hidden;
 }
 
-/* moving gradient blobs */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-space;
+}
+
+/* ============ ANIMATED BLOBS ============ */
 .blob{
-  position: absolute;
-  filter: blur(60px);
-  opacity: 0.6;
+  position: fixed;
+  filter: blur(80px);
+  opacity: 0.5;
   mix-blend-mode: screen;
+  pointer-events: none;
+  animation: float 15s ease-in-out infinite;
 }
 
-.blob--one{ width:420px; height:420px; background: linear-gradient(135deg, #7C4DFF, #00D1FF); left:-100px; top:-120px }
-.blob--two{ width:360px; height:360px; background: linear-gradient(135deg, #00D1FF, #7C4DFF); right:-120px; bottom:-100px }
+.blob--one{ 
+  width: 500px; 
+  height: 500px; 
+  background: linear-gradient(135deg, #7C4DFF, #00D1FF);
+  left: -200px; 
+  top: -100px;
+  animation: float 18s ease-in-out infinite;
+}
 
-/* radar grid */
+.blob--two{ 
+  width: 400px; 
+  height: 400px; 
+  background: linear-gradient(135deg, #00D1FF, #7C4DFF);
+  right: -150px; 
+  bottom: -50px;
+  animation: float 20s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -30px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(20px, 30px) scale(1.05); }
+}
+
+/* ============ RADAR GRID BACKGROUND ============ */
 .radar-grid{
-  background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(transparent, rgba(255,255,255,0.015) 1px);
-  background-size: 40px 40px, 1px 40px;
+  background-image: 
+    radial-gradient(circle at 50% 50%, transparent 0%, rgba(124, 77, 255, 0.05) 100%),
+    linear-gradient(rgba(124, 77, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 77, 255, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 80px 80px, 80px 80px;
+  background-position: center center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* glass card */
+.radar-grid::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(124, 77, 255, 0.2) 20%, transparent 20%);
+  transform: translate(-50%, -50%);
+  animation: radar-sweep 6s linear infinite;
+  pointer-events: none;
+}
+
+.radar-grid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 30%, var(--bg) 80%);
+  pointer-events: none;
+}
+
+@keyframes radar-sweep {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ============ PARTICLES ============ */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(0, 209, 255, 0.6);
+  border-radius: 50%;
+  animation: particle-float linear infinite;
+}
+
+@keyframes particle-float {
+  0% { 
+    opacity: 0;
+    transform: translateY(0) translateX(0);
+  }
+  10% { 
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    opacity: 0;
+    transform: translateY(-100vh) translateX(var(--tx, 0));
+  }
+}
+
+.particle:nth-child(1) { left: 10%; animation-duration: 15s; animation-delay: 0s; --tx: 150px; }
+.particle:nth-child(2) { left: 25%; animation-duration: 18s; animation-delay: 2s; --tx: -120px; }
+.particle:nth-child(3) { left: 40%; animation-duration: 22s; animation-delay: 1s; --tx: 90px; }
+.particle:nth-child(4) { left: 55%; animation-duration: 16s; animation-delay: 3s; --tx: -180px; }
+.particle:nth-child(5) { left: 70%; animation-duration: 20s; animation-delay: 0.5s; --tx: 140px; }
+.particle:nth-child(6) { left: 85%; animation-duration: 25s; animation-delay: 2.5s; --tx: -110px; }
+.particle:nth-child(7) { left: 15%; animation-duration: 19s; animation-delay: 4s; --tx: 80px; }
+.particle:nth-child(8) { left: 95%; animation-duration: 21s; animation-delay: 1.5s; --tx: -60px; }
+.particle:nth-child(9) { left: 45%; animation-duration: 17s; animation-delay: 5s; --tx: 120px; }
+.particle:nth-child(10) { left: 65%; animation-duration: 23s; animation-delay: 0.2s; --tx: -90px; }
+.particle:nth-child(11) { left: 35%; animation-duration: 14s; animation-delay: 3.5s; --tx: 100px; }
+.particle:nth-child(12) { left: 80%; animation-duration: 20s; animation-delay: 2.2s; --tx: -130px; }
+
+/* ============ GLASS MORPHISM ============ */
 .glass{
   background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  backdrop-filter: blur(8px);
-  border-radius: 12px;
+  border: 1px solid rgba(124, 77, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* animated border hover */
+.glass:hover{
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(124, 77, 255, 0.3);
+  box-shadow: 0 20px 40px rgba(124, 77, 255, 0.1);
+}
+
+/* ============ CARD HOVER EFFECTS ============ */
+.card-hover{
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.card-hover:hover::before {
+  left: 100%;
+}
+
 .card-hover:hover{
-  box-shadow: 0 10px 30px rgba(124,77,255,0.12);
-  transform: translateY(-6px);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(124, 77, 255, 0.15);
 }
 
-/* subtle pulse for orb */
-.pulse{
-  animation: pulse 2s infinite;
+/* ============ BUTTONS ============ */
+.btn-primary {
+  @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.3);
 }
-@keyframes pulse{
-  0%{ transform: scale(1); opacity:1 }
-  50%{ transform: scale(1.06); opacity:0.85 }
-  100%{ transform: scale(1); opacity:1 }
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(124, 77, 255, 0.4);
 }
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============ ANIMATIONS ============ */
+.pulse {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(124, 77, 255, 0.5));
+  }
+  50% { 
+    transform: scale(1.08); 
+    opacity: 0.9;
+    filter: drop-shadow(0 0 20px rgba(124, 77, 255, 0.8));
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.6s ease-out;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============ TEXT GRADIENT ============ */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============ PROGRESS BAR ============ */
+.progress-bar {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 6px;
+}
+
+.progress-bar-fill {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  height: 100%;
+  box-shadow: 0 0 15px rgba(124, 77, 255, 0.6);
+  border-radius: 10px;
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary), var(--accent));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent), var(--primary));
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .blob--one { width: 300px; height: 300px; }
+  .blob--two { width: 250px; height: 250px; }
+}
+

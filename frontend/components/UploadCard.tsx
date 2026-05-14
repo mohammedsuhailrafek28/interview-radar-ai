@@ -1,6 +1,7 @@
 "use client"
 import React, {useState} from 'react'
 import {useRouter} from 'next/navigation'
+import { motion } from 'framer-motion'
 
 export default function UploadCard(){
   const router = useRouter()
@@ -29,7 +30,8 @@ export default function UploadCard(){
       formData.append('github', github)
       formData.append('portfolio', portfolio)
 
-      const res = await fetch('http://localhost:8000/upload', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+      const res = await fetch(`${apiUrl}/upload`, {
         method: 'POST',
         body: formData
       })
@@ -43,29 +45,92 @@ export default function UploadCard(){
     }
   }
 
+  const containerVars = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+    }
+  }
+
+  const itemVars = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 }
+  }
+
   return (
-    <div className="space-y-4 mt-6">
-      <label className="block">
-        <input ref={fileInputRef} onChange={handleFile} type="file" className="block w-full text-sm text-gray-200" />
-        {fileName && <div className="text-xs text-gray-400 mt-2">Selected: {fileName}</div>}
-      </label>
+    <motion.div 
+      variants={containerVars}
+      initial="hidden"
+      animate="visible"
+      className="space-y-6 mt-8"
+    >
+      <motion.div variants={itemVars} className="group">
+        <label className="block p-8 border-2 border-dashed border-gray-700 rounded-2xl cursor-pointer hover:border-primary/50 transition-colors bg-white/5">
+          <input ref={fileInputRef} onChange={handleFile} type="file" className="hidden" />
+          <div className="text-center">
+            <span className="text-4xl mb-4 block">📤</span>
+            <div className="text-gray-300 font-medium">{fileName || 'Drop your resume here or click to browse'}</div>
+            <p className="text-xs text-gray-500 mt-1">PDF, DOCX up to 10MB</p>
+          </div>
+        </label>
+      </motion.div>
 
-      <label className="block">
-        <span className="text-sm text-gray-300">Target Role</span>
-        <input value={role} onChange={e=>setRole(e.target.value)} className="mt-1 block w-full p-3 rounded bg-transparent border border-gray-700" placeholder="e.g. Product ML Engineer" />
-      </label>
+      <motion.div variants={itemVars}>
+        <label className="block">
+          <span className="text-sm font-semibold text-gray-400 mb-2 block ml-1">Target Role</span>
+          <input 
+            value={role} 
+            onChange={e=>setRole(e.target.value)} 
+            className="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-600" 
+            placeholder="e.g. Senior Frontend Engineer" 
+          />
+        </label>
+      </motion.div>
 
-      <label className="block">
-        <span className="text-sm text-gray-300">GitHub URL</span>
-        <input value={github} onChange={e=>setGithub(e.target.value)} className="mt-1 block w-full p-3 rounded bg-transparent border border-gray-700" placeholder="https://github.com/username" />
-      </label>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <motion.div variants={itemVars}>
+          <label className="block">
+            <span className="text-sm font-semibold text-gray-400 mb-2 block ml-1">GitHub URL</span>
+            <input 
+              value={github} 
+              onChange={e=>setGithub(e.target.value)} 
+              className="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-600" 
+              placeholder="github.com/username" 
+            />
+          </label>
+        </motion.div>
 
-      <label className="block">
-        <span className="text-sm text-gray-300">Portfolio URL</span>
-        <input value={portfolio} onChange={e=>setPortfolio(e.target.value)} className="mt-1 block w-full p-3 rounded bg-transparent border border-gray-700" placeholder="https://..." />
-      </label>
+        <motion.div variants={itemVars}>
+          <label className="block">
+            <span className="text-sm font-semibold text-gray-400 mb-2 block ml-1">Portfolio</span>
+            <input 
+              value={portfolio} 
+              onChange={e=>setPortfolio(e.target.value)} 
+              className="w-full bg-white/5 border border-white/10 p-4 rounded-xl focus:ring-2 focus:ring-primary/50 outline-none transition-all placeholder:text-gray-600" 
+              placeholder="portfolio.me" 
+            />
+          </label>
+        </motion.div>
+      </div>
 
-      <button onClick={handleSubmit} disabled={loading} className="px-4 py-2 rounded bg-gradient-to-r from-primary to-accent disabled:opacity-50">{loading ? 'Processing...' : 'Upload & Analyze'}</button>
-    </div>
-  )
-}
+      <motion.button 
+        variants={itemVars}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={handleSubmit} 
+        disabled={loading} 
+        className="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-accent font-bold shadow-lg shadow-primary/20 disabled:opacity-50 transition-all text-lg"
+      >
+        {loading ? (
+          <span className="flex items-center justify-center gap-2">
+            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Analyzing Intelligence...
+          </span>
+        ) : 'Launch Radar Analysis'}
+      </motion.button>
+    </motion.div>

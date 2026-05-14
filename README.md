@@ -7,6 +7,10 @@ Interview Radar AI is a rapid employability diagnostic system designed to help s
 Instead of relying on generic mock interviews or coding-only assessments, the platform simulates recruiter-style evaluation across resumes, technical readiness, portfolio quality, and hiring risks — generating an actionable interview readiness report within minutes
 
 
+Demo video - https://drive.google.com/file/d/18ACanZCrU0MqfVX-pY440ufy01DQmlT0/view?usp=drivesdk
+
+deployed link - 
+https://frontend-4ottybp4m-rmohammedsuhail471-4314s-projects.vercel.app
 
 
 Why This Exists

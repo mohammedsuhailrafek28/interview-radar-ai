@@ -52,6 +52,24 @@ Traditional preparation platforms focus heavily on coding practice while ignorin
 Interview Radar AI bridges this gap through rapid recruiter-style evaluation and personalized improvement roadmaps.
 
 
+
+
+🎯 Role-Based Evaluation
+Evaluation adapts dynamically based on selected target role:
+AI/ML Engineer
+Frontend Developer
+Backend Developer
+Data Scientist
+Mobile App Developer
+Product Philosophy
+Interview Radar AI was designed to feel like a recruiter intelligence dashboard rather than a traditional assessment portal.
+The goal was to create a system that delivers:
+clarity instead of generic advice
+diagnostics instead of guesswork
+actionable insights instead of raw scores
+
+
+
 Precision intelligence for your career. Get AI-powered resume analysis, readiness scoring, and actionable feedback in real-time.
 
 ## Project Structure

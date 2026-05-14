@@ -9,6 +9,10 @@ Instead of relying on generic mock interviews or coding-only assessments, the pl
 
 Demo video - https://drive.google.com/file/d/18ACanZCrU0MqfVX-pY440ufy01DQmlT0/view?usp=drivesdk
 
+deployed link - 
+https://frontend-4ottybp4m-rmohammedsuhail471-4314s-projects.vercel.app
+
+
 Why This Exists
 Most students realize they are underprepared only after failing interviews.
 Interview Radar AI was built to expose hiring weaknesses before candidates face real recruiters.

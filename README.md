@@ -16,6 +16,20 @@ Interview Radar AI was built to expose hiring weaknesses before candidates face 
 
 
 
+
+
+
+
+Problem Statement
+Students entering the job market often struggle to objectively evaluate:
+whether their resume is recruiter-ready
+whether their projects demonstrate real impact
+whether their skills align with hiring expectations
+whether they are actually interview prepared
+Traditional preparation platforms focus heavily on coding practice while ignoring employability diagnostics.
+Interview Radar AI bridges this gap through rapid recruiter-style evaluation and personalized improvement roadmaps.
+
+
 Precision intelligence for your career. Get AI-powered resume analysis, readiness scoring, and actionable feedback in real-time.
 
 ## Project Structure

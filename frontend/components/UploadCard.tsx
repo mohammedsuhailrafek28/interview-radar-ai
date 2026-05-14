@@ -134,3 +134,5 @@ export default function UploadCard(){
         ) : 'Launch Radar Analysis'}
       </motion.button>
     </motion.div>
+  )
+}

@@ -1,3 +1,4 @@
+'use client'
 import { Radar, RadarChart as RC, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts'
 
 export default function RadarChart({values}:{values:{name:string;value:number}[]}){

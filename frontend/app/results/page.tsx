@@ -112,6 +112,90 @@ export default function Results(){
           <Roadmap steps={data.roadmap} />
         </div>
       </motion.div>
+
+      {/* SECTION 5 — BULLET REWRITER */}
+      <motion.div variants={itemVariants}>
+        <BulletRewriter role={data.title || 'Software Engineer'} />
+      </motion.div>
+
+      {/* SECTION 6 — NEXT STEPS CTA */}
+      <motion.div variants={itemVariants}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Link href="/interview" className="group glass p-10 rounded-[2.5rem] border border-danger/10 hover:border-danger/40 transition-all block">
+            <div className="text-4xl mb-4">🎤</div>
+            <h3 className="text-2xl font-black mb-2 group-hover:text-danger transition-colors">Mock Interview</h3>
+            <p className="text-gray-400 text-sm mb-6">Face AI-generated questions based on your exact resume weaknesses. Get scored and coached in real-time.</p>
+            <span className="text-xs font-black text-danger uppercase tracking-widest">Start Now →</span>
+          </Link>
+          <Link href="/match" className="group glass p-10 rounded-[2.5rem] border border-accent/10 hover:border-accent/40 transition-all block">
+            <div className="text-4xl mb-4">📋</div>
+            <h3 className="text-2xl font-black mb-2 group-hover:text-accent transition-colors">JD Match Engine</h3>
+            <p className="text-gray-400 text-sm mb-6">Paste any job description and get a real-time AI compatibility score with keyword gap analysis.</p>
+            <span className="text-xs font-black text-accent uppercase tracking-widest">Match Now →</span>
+          </Link>
+        </div>
+      </motion.div>
     </motion.div>
+  )
+}
+
+// ---- Inline Bullet Rewriter Component ----
+function BulletRewriter({ role }: { role: string }) {
+  const [bullet, setBullet] = useState('')
+  const [result, setResult] = useState<{rewritten: string; why: string} | null>(null)
+  const [loading, setLoading] = useState(false)
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000'
+
+  async function rewrite() {
+    if (!bullet.trim()) return
+    setLoading(true)
+    try {
+      const res = await fetch(`${apiUrl}/rewrite`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bullet, role })
+      })
+      setResult(await res.json())
+    } catch (e) { alert('Rewrite failed.') }
+    setLoading(false)
+  }
+
+  return (
+    <div className="glass p-10 rounded-[2.5rem]">
+      <div className="mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest mb-4">✍ AI Resume Rewriter</div>
+        <h3 className="text-3xl font-bold mb-2">Bullet Point Optimizer</h3>
+        <p className="text-gray-400">Paste any weak resume bullet and Gemini will rewrite it to be stronger, more quantified, and more impactful.</p>
+      </div>
+      <textarea
+        value={bullet}
+        onChange={e => setBullet(e.target.value)}
+        rows={3}
+        className="w-full bg-black/30 border border-white/10 p-5 rounded-2xl text-sm text-gray-300 focus:ring-2 focus:ring-primary/50 outline-none resize-none placeholder:text-gray-600 mb-4"
+        placeholder="e.g. 'Worked on the company website and fixed some bugs'"
+      />
+      <button
+        onClick={rewrite}
+        disabled={loading || !bullet.trim()}
+        className="px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-accent font-black text-sm hover:scale-105 transition-transform disabled:opacity-50 mb-6"
+      >
+        {loading ? 'Rewriting with AI...' : '✨ Rewrite Bullet'}
+      </button>
+      {result && (
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl bg-danger/5 border border-danger/20">
+              <p className="text-[10px] font-black text-danger/60 uppercase tracking-widest mb-2">Before</p>
+              <p className="text-gray-400 text-sm leading-relaxed">{bullet}</p>
+            </div>
+            <div className="p-5 rounded-2xl bg-success/5 border border-success/20">
+              <p className="text-[10px] font-black text-success/60 uppercase tracking-widest mb-2">After</p>
+              <p className="text-white text-sm leading-relaxed font-medium">{result.rewritten}</p>
+            </div>
+          </div>
+          <p className="text-xs text-accent">💡 {result.why}</p>
+        </motion.div>
+      )}
+    </div>
   )
 }

@@ -1,38 +1,89 @@
+import os
+import json
 import asyncio
-import random
 from typing import Dict, Any
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+FALLBACK = {
+    "score": 72,
+    "title": "Mid-Level",
+    "subtitle": "IMPROVEMENTS SUGGESTED",
+    "radar": [
+        {"name": "Technical", "value": 70},
+        {"name": "ATS", "value": 60},
+        {"name": "Communication", "value": 80},
+        {"name": "Portfolio", "value": 50},
+        {"name": "Confidence", "value": 75}
+    ],
+    "verdict": "Solid foundation detected, but key gaps in measurable impact and deployment proof.",
+    "alerts": [
+        "Resume lacks quantifiable achievements",
+        "GitHub activity appears inconsistent",
+        "Project descriptions missing business context"
+    ],
+    "roadmap": [
+        "Add deployment links for at least 2 projects",
+        "Quantify impact with metrics (users, traffic, revenue)",
+        "Improve GitHub README quality and commit frequency"
+    ]
+}
+
+JSON_SCHEMA = """{
+    "score": <integer 0-100>,
+    "title": "<Junior | Mid-Level | Senior | Expert>",
+    "subtitle": "<INTERVIEW READY | IMPROVEMENTS SUGGESTED>",
+    "radar": [
+        {"name": "Technical", "value": <0-100>},
+        {"name": "ATS", "value": <0-100>},
+        {"name": "Communication", "value": <0-100>},
+        {"name": "Portfolio", "value": <0-100>},
+        {"name": "Confidence", "value": <0-100>}
+    ],
+    "verdict": "<one hard-hitting recruiter sentence>",
+    "alerts": ["<risk 1>", "<risk 2>", "<risk 3>"],
+    "roadmap": ["<action 1>", "<action 2>", "<action 3>"]
+}"""
 
 async def analyze_resume(data: Dict[str, Any]):
-    # simulate 2-4s server-side analysis
-    await asyncio.sleep(2 + random.random()*2)
-    role = data.get('role','')
-    score = 60
-    if data.get('github') and len(data.get('github'))>10: score += 8
-    if data.get('portfolio') and len(data.get('portfolio'))>10: score += 6
-    if 'engineer' in role.lower(): score += 4
-    score = min(95, score + random.randint(0,8))
+    resume_text = data.get('resume_text', '')
+    role = data.get('role', 'Software Engineer')
+    github = data.get('github', 'Not provided')
+    portfolio = data.get('portfolio', 'Not provided')
 
-    results = {
-        'score': score,
-        'title': str(score),
-        'subtitle': 'INTERVIEW READY' if score>75 else 'IMPROVEMENTS SUGGESTED',
-        'radar': [
-            {'name':'Technical', 'value': max(10, min(100, score - 4 + random.randint(0,8)))},
-            {'name':'ATS', 'value': max(10, min(100, score - 10 + random.randint(0,12)))},
-            {'name':'Communication', 'value': max(10, min(100, score - 2 + random.randint(0,10)))},
-            {'name':'Portfolio', 'value': 60 + (20 if data.get('portfolio') else 0) + random.randint(0,10)},
-            {'name':'Confidence', 'value': max(10, min(100, score + random.randint(0,6)))},
-        ],
-        'verdict': 'Strong project quality and technical understanding, but lacks production deployment proof and measurable impact.',
-        'alerts': [
-            'Resume claims AI skills without deployment evidence',
-            'GitHub consistency appears low',
-            'Project descriptions lack business impact'
-        ],
-        'roadmap': [
-            'Add deployment links for at least 2 projects',
-            'Add measurable impact bullets (metrics, traffic, revenue)',
-            'Improve GitHub README and activity cadence'
-        ]
-    }
-    return results
+    prompt = (
+        "You are an expert technical recruiter and ATS optimization engine.\n"
+        f"Analyze the following resume for the role of: {role}\n"
+        f"GitHub: {github}\n"
+        f"Portfolio: {portfolio}\n\n"
+        "Resume Text:\n"
+        f"{resume_text}\n\n"
+        "Return ONLY valid JSON matching this exact schema:\n"
+        + JSON_SCHEMA +
+        "\n\nDo not include any text, markdown, or explanation outside the JSON."
+    )
+
+    try:
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        loop = asyncio.get_event_loop()
+        response = await loop.run_in_executor(None, lambda: model.generate_content(prompt))
+
+        res_text = response.text.strip()
+
+        # Strip markdown fences if present
+        if res_text.startswith("```"):
+            res_text = res_text.split("```")[1]
+            if res_text.startswith("json"):
+                res_text = res_text[4:]
+        res_text = res_text.strip()
+
+        result = json.loads(res_text)
+        return result
+
+    except Exception as e:
+        print(f"[Gemini Error] {type(e).__name__}: {str(e)}")
+        return FALLBACK

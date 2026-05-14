@@ -20,9 +20,10 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-bold tracking-widest text-gray-400 uppercase">
-          <Link href="/" className="hover:text-white transition-colors">Intelligence</Link>
           <Link href="/upload" className="hover:text-white transition-colors">Scanner</Link>
-          <Link href="/results" className="hover:text-white transition-colors">Vault</Link>
+          <Link href="/match" className="hover:text-white transition-colors">JD Match</Link>
+          <Link href="/interview" className="hover:text-white transition-colors">Interview</Link>
+          <Link href="/results" className="hover:text-white transition-colors">Results</Link>
         </div>
 
         <div className="flex items-center gap-4">

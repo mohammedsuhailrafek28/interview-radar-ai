@@ -4,8 +4,15 @@ from typing import Dict, Any
 import google.generativeai as genai
 from dotenv import load_dotenv
 
+# Load .env file locally, but environment variables take precedence
 load_dotenv()
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+# Get API key from environment, with fallback
+api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise ValueError("GEMINI_API_KEY environment variable is not set")
+
+genai.configure(api_key=api_key)
 
 
 async def run_gemini(prompt: str) -> str:

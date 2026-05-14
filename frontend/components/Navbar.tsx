@@ -30,6 +30,9 @@ export default function Navbar() {
           <span className="hidden sm:inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-[10px] font-black text-primary uppercase tracking-[0.2em]">
             Beta 0.1
           </span>
+          <Link href="/login" className="px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors hidden sm:block">
+            Sign In
+          </Link>
           <Link href="/upload" className="px-5 py-2.5 rounded-xl bg-white text-black text-xs font-black uppercase tracking-widest hover:bg-accent hover:text-white transition-all">
             Start Analysis
           </Link>

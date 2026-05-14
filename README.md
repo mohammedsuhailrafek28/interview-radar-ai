@@ -16,6 +16,28 @@ Interview Radar AI was built to expose hiring weaknesses before candidates face 
 
 
 
+Core Innovations
+🧠 Recruiter Simulation Engine
+Simulates evaluation from:
+ATS Systems
+HR Recruiters
+Technical Interviewers
+Hiring Managers
+⚠ Hiring Risk Detection
+Identifies critical employability risks such as:
+weak project impact
+missing deployment evidence
+inflated skill claims
+poor technical alignment
+inconsistent portfolio quality
+📊 Interview Readiness Scoring
+Generates category-wise scoring across:
+Resume Strength
+Technical Depth
+Portfolio Quality
+Communication Readiness
+Employability Confidence
+
 
 
 

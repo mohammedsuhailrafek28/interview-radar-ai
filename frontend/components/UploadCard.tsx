@@ -1,7 +1,7 @@
 "use client"
 import React, {useState} from 'react'
 import {useRouter} from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion } from '../utils/motion'
 
 export default function UploadCard(){
   const router = useRouter()

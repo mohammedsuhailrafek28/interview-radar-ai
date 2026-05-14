@@ -1,6 +1,6 @@
 "use client"
 import {useEffect, useState} from 'react'
-import {motion} from 'framer-motion'
+import {motion} from '../../utils/motion'
 import Link from 'next/link'
 import ScoreRing from '../../components/ScoreRing'
 import RadarChart from '../../components/RadarChart'

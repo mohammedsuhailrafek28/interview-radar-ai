@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import Hero from '../components/Hero'
-import { motion } from 'framer-motion'
+import { motion } from '../utils/motion'
 
 export default function Home(){
   return (

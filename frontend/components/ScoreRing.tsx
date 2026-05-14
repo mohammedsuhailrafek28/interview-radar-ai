@@ -1,6 +1,6 @@
 'use client'
 import {useEffect, useState} from 'react'
-import {motion} from 'framer-motion'
+import {motion} from '../utils/motion'
 
 export default function ScoreRing({score}:{score:number}){
   const [val,setVal] = useState(0)

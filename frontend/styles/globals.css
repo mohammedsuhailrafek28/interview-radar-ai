@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg: #0B1020;
+  --primary: #7C4DFF;
+  --accent: #00D1FF;
+}
+
+html,body,#root{
+  height:100%;
+}
+
+body{
+  @apply bg-[color:var(--bg)] text-white font-inter;
+  background-color: var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* moving gradient blobs */
+.blob{
+  position: absolute;
+  filter: blur(60px);
+  opacity: 0.6;
+  mix-blend-mode: screen;
+}
+
+.blob--one{ width:420px; height:420px; background: linear-gradient(135deg, #7C4DFF, #00D1FF); left:-100px; top:-120px }
+.blob--two{ width:360px; height:360px; background: linear-gradient(135deg, #00D1FF, #7C4DFF); right:-120px; bottom:-100px }
+
+/* radar grid */
+.radar-grid{
+  background-image: radial-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(transparent, rgba(255,255,255,0.015) 1px);
+  background-size: 40px 40px, 1px 40px;
+}
+
+/* glass card */
+.glass{
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+}
+
+/* animated border hover */
+.card-hover:hover{
+  box-shadow: 0 10px 30px rgba(124,77,255,0.12);
+  transform: translateY(-6px);
+}
+
+/* subtle pulse for orb */
+.pulse{
+  animation: pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{ transform: scale(1); opacity:1 }
+  50%{ transform: scale(1.06); opacity:0.85 }
+  100%{ transform: scale(1); opacity:1 }
+}

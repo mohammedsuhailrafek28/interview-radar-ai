@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { motion } from '../utils/motion'
+import { motion } from '../../utils/motion'
 
 export default function LoginPage() {
   const router = useRouter()

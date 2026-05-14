@@ -1,4 +1,10 @@
-# Interview Radar AI
+
+
+
+Interview Radar AI 🚀
+A recruiter-simulation engine that measures interview readiness in under 2 minutes.
+Interview Radar AI is a rapid employability diagnostic system designed to help students identify interview weaknesses before facing real recruiters.
+Instead of relying on generic mock interviews or coding-only assessments, the platform simulates recruiter-style evaluation across resumes, technical readiness, portfolio quality, and hiring risks — generating an actionable interview readiness report within minutes
 
 Precision intelligence for your career. Get AI-powered resume analysis, readiness scoring, and actionable feedback in real-time.
 

@@ -51,7 +51,7 @@ export default function ScoreRing({score}:{score:number}){
         />
         <defs>
           <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#7C4DFF" />
+            <stop offset="0%" stopColor="#00D1FF" />
             <stop offset="100%" stopColor="#00D1FF" />
           </linearGradient>
         </defs>

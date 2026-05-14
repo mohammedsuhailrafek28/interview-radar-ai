@@ -37,7 +37,7 @@ export default function Hero(){
         className="mt-10 flex flex-wrap gap-8"
       >
         <div className="flex items-center gap-3">
-          <div className="w-4 h-4 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_10px_rgba(124,77,255,0.5)]"></div>
+          <div className="w-4 h-4 rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_10px_rgba(0,209,255,0.5)]"></div>
           <span className="text-base font-medium text-gray-300">Instant Scan</span>
         </div>
         <div className="flex items-center gap-3">

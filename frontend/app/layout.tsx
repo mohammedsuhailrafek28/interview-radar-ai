@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }){
   return (
     <html lang="en">
       <body>
-        <div className="min-h-screen relative overflow-hidden flex flex-col" style={{backgroundColor:'#0B1020'}}>
+        <div className="min-h-screen relative overflow-hidden flex flex-col" style={{backgroundColor:'#0A0F1C'}}>
           <Navbar />
           
           {/* Animated gradient blobs */}

@@ -24,14 +24,14 @@ export default function RadarChart({values}:{values:{name:string;value:number}[]
           <Radar
             name="Skills"
             dataKey="value"
-            stroke="#7C4DFF"
+            stroke="#00D1FF"
             strokeWidth={3}
             fill="url(#radarGradient)"
             fillOpacity={0.6}
           />
           <defs>
             <linearGradient id="radarGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#7C4DFF" stopOpacity={0.8}/>
+              <stop offset="5%" stopColor="#00D1FF" stopOpacity={0.8}/>
               <stop offset="95%" stopColor="#00D1FF" stopOpacity={0.8}/>
             </linearGradient>
           </defs>

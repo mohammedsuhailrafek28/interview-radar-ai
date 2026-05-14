@@ -5,11 +5,13 @@
 @tailwind utilities;
 
 :root{
-  --bg: #0B1020;
-  --primary: #7C4DFF;
-  --accent: #00D1FF;
-  --success: #00E676;
-  --danger: #FF5252;
+  --bg: #0A0F1C;
+  --surface: #111827;
+  --primary: #00D1FF;
+  --accent: #22C55E;
+  --success: #22C55E;
+  --danger: #FF4D4F;
+  --text: #F3F4F6;
 }
 
 html,body,#root{
@@ -17,8 +19,9 @@ html,body,#root{
 }
 
 body{
-  @apply bg-[color:var(--bg)] text-white font-inter;
+  @apply bg-[color:var(--bg)] text-[color:var(--text)] font-inter;
   background-color: var(--bg);
+  color: var(--text);
   -webkit-font-smoothing:antialiased;
   overflow-x: hidden;
 }
@@ -40,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
 .blob--one{ 
   width: 500px; 
   height: 500px; 
-  background: linear-gradient(135deg, #7C4DFF, #00D1FF);
+  background: linear-gradient(135deg, #00D1FF, #22C55E);
   left: -200px; 
   top: -100px;
   animation: float 18s ease-in-out infinite;
@@ -49,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 .blob--two{ 
   width: 400px; 
   height: 400px; 
-  background: linear-gradient(135deg, #00D1FF, #7C4DFF);
+  background: linear-gradient(135deg, #22C55E, #00D1FF);
   right: -150px; 
   bottom: -50px;
   animation: float 20s ease-in-out infinite reverse;
@@ -65,9 +68,9 @@ h1, h2, h3, h4, h5, h6 {
 /* ============ RADAR GRID BACKGROUND ============ */
 .radar-grid{
   background-image: 
-    radial-gradient(circle at 50% 50%, transparent 0%, rgba(124, 77, 255, 0.05) 100%),
-    linear-gradient(rgba(124, 77, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 77, 255, 0.05) 1px, transparent 1px);
+    radial-gradient(circle at 50% 50%, transparent 0%, rgba(0, 209, 255, 0.05) 100%),
+    linear-gradient(rgba(0, 209, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 209, 255, 0.05) 1px, transparent 1px);
   background-size: 100% 100%, 80px 80px, 80px 80px;
   background-position: center center;
   position: relative;
@@ -81,7 +84,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 50%;
   width: 200%;
   height: 200%;
-  background: conic-gradient(from 0deg, transparent 0%, rgba(124, 77, 255, 0.2) 20%, transparent 20%);
+  background: conic-gradient(from 0deg, transparent 0%, rgba(0, 209, 255, 0.2) 20%, transparent 20%);
   transform: translate(-50%, -50%);
   animation: radar-sweep 6s linear infinite;
   pointer-events: none;
